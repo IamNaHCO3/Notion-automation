@@ -24,4 +24,4 @@ jobs:
         env:
           DATABASES: ${{ secrets.DATABASES }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
-        run: python src/main.py
+        run: python main.py
