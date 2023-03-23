@@ -1,7 +1,6 @@
 name: AUTO-RUN
 
-# on: [push]
-on:
+on: [push, schedule]
   workflow_dispatch:
   schedule:
     - cron:  '0,30 * * * *'
