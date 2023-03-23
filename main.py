@@ -147,6 +147,15 @@ def setRepeatQuery(databaseID: str):
             ret = createAPage(databaseID=databaseID, properties=properties)
     updateDatabaseProgress(databaseID=databaseID)
 
+
+def main(times: int):
+    try:
+        setRepeatQuery(databaseID=databases['Plan Data'])
+        checkDatabaseQuery(databaseID=databases['Plan Data'])
+    except:
+        if(times < 10):
+            main(times + 1)
+
+
 if __name__ == '__main__':
-    checkDatabaseQuery(databaseID=databases['Plan Data'])
-    setRepeatQuery(databaseID=databases['Plan Data'])
+    main(1)

@@ -1,6 +1,5 @@
 name: AUTO-RUN
 
-# on: [push]
 on:
   workflow_dispatch:
   schedule:
