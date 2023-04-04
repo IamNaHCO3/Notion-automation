@@ -7,6 +7,7 @@ databases = json.loads(os.environ['DATABASES'])
 apiToken = os.environ['API_TOKEN']
 databasesURL = 'https://api.notion.com/v1/databases/'
 pagesURL = 'https://api.notion.com/v1/pages/'
+
 headers = {
     'Authorization': apiToken,
     "Notion-Version": "2022-06-28",
@@ -53,7 +54,7 @@ def checkDatabaseQuery(databaseID: str):
     queries = queryADatabase(databaseID)['results']
     for q in queries:
         updateTime = q['properties']['更新日期']['date']['start']
-        if(datetime.datetime.strptime(updateTime, "%Y-%m-%d").date() < datetime.date.today()):
+        if datetime.datetime.strptime(updateTime, "%Y-%m-%d").date() - datetime.timedelta(hours=8) < datetime.date.today():
 
             if(q['properties']['预期目标']['number']==None):
                 costNeed = q['properties']['总时间']['formula']['number']
@@ -84,7 +85,7 @@ def setRepeatQuery(databaseID: str):
     for q in queries:
         repeat = q['properties']['重复']['number']
         updateTime = q['properties']['更新日期']['date']['start']
-        if(repeat != None and repeat != 0 and datetime.datetime.strptime(updateTime, "%Y-%m-%d").date() < datetime.date.today()):
+        if(repeat != None and repeat != 0 and datetime.datetime.strptime(updateTime, "%Y-%m-%d").date() - datetime.timedelta(hours=8) < datetime.date.today()):
             properties = {
                 "重复": {
                     "number": repeat
@@ -146,6 +147,8 @@ def setRepeatQuery(databaseID: str):
             updateADatabase(pageID=q['id'], properties={"重复": {"number": 0}})
             ret = createAPage(databaseID=databaseID, properties=properties)
     updateDatabaseProgress(databaseID=databaseID)
+
+
 
 
 def main(times: int):
